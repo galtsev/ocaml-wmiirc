@@ -1,0 +1,65 @@
+#!/bin/dash -f
+# Configure wmii
+
+
+# Colors tuples: "<text> <background> <border>"
+export WMII_NORMCOLORS='#888888 #222222 #333333'
+export WMII_FOCUSCOLORS='#ffffff #285577 #4c7899'
+
+export WMII_BACKGROUND='#333333'
+export WMII_FONT='-*-fixed-medium-r-*-*-13-*-*-*-*-*-*-*'
+
+
+# Menu history
+hist="${WMII_CONFPATH%%:*}/history"
+histnum=5000
+
+# Column Rules
+wmiir write /colrules <<!
+/gimp/ -> 17+83+41
+/.*/ -> 62+38 # Golden Ratio
+!
+
+# Tagging Rules
+wmiir write /tagrules <<!
+/MPlayer|VLC/ -> ~
+/skype.*/ -> skype
+/chromium.*/ -> web
+!
+
+
+# WM Configuration
+wmiir write /ctl <<!
+	font $WMII_FONT
+	focuscolors $WMII_FOCUSCOLORS
+	normcolors $WMII_NORMCOLORS
+	grabmod Mod4
+	border 1
+!
+xsetroot -solid "$WMII_BACKGROUND" &
+
+# Misc
+
+# Setup Tag Bar
+IFS="$wi_newline"
+wmiir rm $(wmiir ls /lbar | sed 's,^,/lbar/,') >/dev/null
+seltag=$(wmiir read /tag/sel/ctl | sed 1q)
+unset IFS
+wmiir ls /tag | sed 's,/,,; /^sel$/d'| while read tag
+do
+	if [ "$tag" = "$seltag" ]; then
+		echo "$WMII_FOCUSCOLORS" "$tag"
+	else
+		echo "$WMII_NORMCOLORS" "$tag"
+	fi | wmiir create "/lbar/$tag"
+done
+
+# status panel. We check wmiir  stderr output as return code 0 when removing non-existing panel
+[ -z "$(wmiir remove /rbar/status 2>&1)" ] && sleep 2
+echo "$WMII_NORMCOLORS" | wmiir create /rbar/status
+
+#(while status | wmiir write /rbar/status; do sleep 1; done) &
+(exec ${WMII_CONFPATH%%:*}/statusbar )&
+
+#wmiir read /event |	/home/dan/.wmii/wrc
+exec ${WMII_CONFPATH%%:*}/ocaml-wmiirc

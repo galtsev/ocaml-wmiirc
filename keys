@@ -1,0 +1,59 @@
+# custom
+Mod4-w: cmd /ctl view web
+Mod4-s: cmd /ctl view skype
+Mod4-u: cmd /ctl view ssh
+Mod4-e: cmd /ctl view vim
+Mod4-Control-space: exec mpc toggle >/dev/null
+
+# select 
+Mod4-h: cmd /tag/sel/ctl select left
+Mod4-l: cmd /tag/sel/ctl select right
+Mod4-j: cmd /tag/sel/ctl select down
+Mod4-k: cmd /tag/sel/ctl select up
+
+# select/toggle to floating layer
+Mod4-space: cmd /tag/sel/ctl select toggle
+Mod4-Shift-space: cmd /tag/sel/ctl send sel toggle
+
+# move
+Mod4-Shift-h: cmd /tag/sel/ctl send sel left
+Mod4-Shift-l: cmd /tag/sel/ctl send sel right
+Mod4-Shift-j: cmd /tag/sel/ctl send sel up
+Mod4-Shift-k: cmd /tag/sel/ctl send sel down
+
+# change column mode
+Mod4-d: cmd /tag/sel/ctl colmode sel default-max
+Mod4-Control-s: cmd /tag/sel/ctl colmode sel stack-max
+
+#TODO
+Mod4-a: actions _
+Mod4-p: exec dmenu_run &
+
+# Launch terminal
+Mod4-Return: exec urxvt &
+
+# select tag
+Mod4-t: exec (t=$(wmiir ls /tag | tr -d / | grep -v sel | dmenu) && wmiir xwrite /ctl view $t)&
+Mod4-0: cmd /ctl view 0
+Mod4-1: cmd /ctl view 1
+Mod4-2: cmd /ctl view 2
+Mod4-3: cmd /ctl view 3
+Mod4-4: cmd /ctl view 4
+Mod4-5: cmd /ctl view 5
+Mod4-6: cmd /ctl view 6
+Mod4-7: cmd /ctl view 7
+Mod4-8: cmd /ctl view 8
+Mod4-9: cmd /ctl view 9
+
+# move window to tag
+Mod4-Shift-t: exec (t=$(wmiir ls /tag | tr -d / | grep -v sel | dmenu) && wmiir xwrite /client/sel/tags $t)&
+Mod4-Shift-0: cmd /client/sel/tags 0
+Mod4-Shift-1: cmd /client/sel/tags 1
+Mod4-Shift-2: cmd /client/sel/tags 2
+Mod4-Shift-3: cmd /client/sel/tags 3
+Mod4-Shift-4: cmd /client/sel/tags 4
+Mod4-Shift-5: cmd /client/sel/tags 5
+Mod4-Shift-6: cmd /client/sel/tags 6
+Mod4-Shift-7: cmd /client/sel/tags 7
+Mod4-Shift-8: cmd /client/sel/tags 8
+Mod4-Shift-9: cmd /client/sel/tags 9
